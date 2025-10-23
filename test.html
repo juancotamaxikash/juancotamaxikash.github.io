@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #0078d4;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        #reportContainer {
+            width: 100%;
+            height: 700px;
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dashboard</h1>
+            <p>Reporte</p>
+        </div>
+        <div id="reportContainer">
+            <div class="loading">
+                <p>🔄 Cargando...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // MÉTODO DIRECTO PARA REPORTES PÚBLICOS
+        function loadPublicReport() {
+            // ⚠️ REEMPLAZA ESTA URL CON LA DE TU REPORTE PÚBLICO
+            const publicReportUrl = 'https://app.powerbi.com/reportEmbed?reportId=d3c11ea7-24f9-4a77-be20-c335bc1c176a&autoAuth=true&ctid=c5a5ab56-b040-4d3d-b927-ed44cf18916a';
+            
+            // Verificar si se reemplazó la URL
+            if (publicReportUrl.includes('TU_REPORT_ID_AQUI')) {
+                document.getElementById('reportContainer').innerHTML = `
+                    <div style="text-align: center; padding: 50px; background: #fff3cd; border-radius: 10px; margin: 20px;">
+                        <h3>⚙️ Configuración Requerida</h3>
+                        <p><strong>Reemplaza la URL del reporte público</strong></p>
+                        <div style="background: white; padding: 15px; border-radius: 5px; margin: 15px 0; text-align: left;">
+                            <p><strong>Cómo obtener la URL pública:</strong></p>
+                            <ol>
+                                <li>Abre tu reporte en <strong>app.powerbi.com</strong></li>
+                                <li>Haz clic en <strong>"Archivo" → "Publicar en web"</strong></li>
+                                <li>Haz clic en <strong>"Crear código de inserción"</strong></li>
+                                <li>Copia la URL completa del iframe</li>
+                                <li>Pega la URL en la línea 42 del código</li>
+                            </ol>
+                            <p><strong>Ejemplo de URL:</strong></p>
+                            <code style="background: #f8f9fa; padding: 5px; border-radius: 3px; display: block; margin: 10px 0;">
+                                https://app.powerbi.com/view?r=eyJrIjoiZDVhNDYwYjMtNGU0MC00Zjg1LTg1M2MtMjAwM2Y2MjA4NDFjIiwidCI6ImU0YTM0MjgxLTllMTQtNDQ0YS1iNzVkLWE4YTEyMjE4NDA4MiIsImMiOjR9
+                            </code>
+                        </div>
+                        <button onclick="location.reload()" style="padding: 10px 20px; background: #0078d4; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Recargar después de configurar
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Crear iframe directamente (método más simple y confiable)
+            const iframe = document.createElement('iframe');
+            iframe.src = publicReportUrl;
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.frameBorder = '0';
+            iframe.allowFullscreen = true;
+            
+            // Reemplazar el loading con el iframe
+            const container = document.getElementById('reportContainer');
+            container.innerHTML = '';
+            container.appendChild(iframe);
+            
+            console.log('✅ Reporte público cargado correctamente');
+        }
+
+        // Cargar cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', loadPublicReport);
+    </script>
+</body>
+</html>
